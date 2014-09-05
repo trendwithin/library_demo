@@ -77,31 +77,21 @@ class Book
    end
 
    def enshelf(title, shelves)
+
    	   @title = title
    	   @shelves = shelves
-       @enshelf = ""
-   	   @shelves.each do | k,v|
-   	   	puts "#{k} and #{v}"
-   		 if v.include?(@title)
-   			@enshelf = "#{k}"
-
-   		  else
-   			@enshelf = false
-   		  end
-   	end
-      return @enshelf
+       
+       shelf = @shelves.select { |k,v| v.include?(@title)}.keys.first
+      
    end
    
    def unshelf(title, shelves)
-   	  
-   	  @title = title
-   	  @shelves = shelves
-
-   	  @shelves.each do | x |
-   	  if x == @title
-   	  	#puts "match"
-   	  end
-   	end
+   	@title = title
+   	@shelves = shelves
+   	shelf = @shelves.select { |k,v| v.include?(@title)}.keys.first
+   	@shelves[shelf].reject!{ |b| b == @title}
+   	puts @shelves
+   	 
    end
 
 
@@ -129,15 +119,18 @@ print my_library.library_shelves
 puts ""
 #check if the book is on the shelf
 shelf = my_book.enshelf("Catch 22", list_of_shelves)
+
 if shelf != false
-	puts "The book was found on shelf " + shelf
+	puts "The book was found on shelf " 
+	puts  shelf
 else
 	puts "The book is not currently on the shelf"
 end
 
 #remove the book from the shelf
+puts "Check out The Stranger"
 my_book.unshelf("The Stranger", list_of_shelves)
-#puts "After Deletion"
-#puts my_library.get_library_catalog
+
+
 
 
